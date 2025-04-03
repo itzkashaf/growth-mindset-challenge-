@@ -1,0 +1,46 @@
+# growth-mindset-challenge-
+assignment 4
+import streamlit as st
+import random
+
+# Growth mindset challenges/questions
+challenges = [
+    "Think of a time you faced a big challenge. How did you overcome it?",
+    "What is something new you have learned recently? How did you push through difficulties?",
+    "Describe a mistake you made that helped you grow.",
+    "What is one skill you'd like to improve? What’s your next step?",
+    "How do you respond to failure? How can you reframe it as a learning opportunity?"
+]
+
+# Initialize session state
+if 'challenge_index' not in st.session_state:
+    st.session_state.challenge_index = random.randint(0, len(challenges) - 1)
+if 'responses' not in st.session_state:
+    st.session_state.responses = []
+
+# App title and description
+st.title("🌱 Growth Mindset Challenge")
+st.write("Welcome! Each challenge helps develop a growth mindset. Reflect and grow!")
+
+# Display a challenge
+st.subheader("Your Challenge:")
+st.write(challenges[st.session_state.challenge_index])
+
+# User response input
+response = st.text_area("Your Reflection:")
+
+# Submit button
+if st.button("Submit Response"):
+    if response:
+        st.session_state.responses.append(response)
+        st.session_state.challenge_index = random.randint(0, len(challenges) - 1)
+        st.success("Great reflection! Here's a new challenge.")
+        st.experimental_rerun()
+    else:
+        st.warning("Please write something before submitting.")
+
+# Show previous responses
+if st.session_state.responses:
+    st.subheader("Your Past Reflections:")
+    for idx, resp in enumerate(st.session_state.responses, 1):
+        st.write(f"{idx}. {resp}")
